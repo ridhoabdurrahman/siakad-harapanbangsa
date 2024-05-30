@@ -5,6 +5,17 @@ class Auth extends CI_Controller
 {
     public function index()
     {
+        return redirect('/auth/signin');
+    }
+
+    public function signin()
+    {
+        $this->template->load('admin/auth_layout', 'admin/auth/login');
+    }
+
+    public function signup()
+    {
+        $this->template->load('admin/auth_layout', 'admin/auth/registration');
     }
 }
 
