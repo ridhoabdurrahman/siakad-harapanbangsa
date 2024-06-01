@@ -4,7 +4,7 @@
         <!-- /Left Text -->
         <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center p-5">
             <div class="w-100 d-flex justify-content-center">
-                <img src="<?= base_url() ?>assets/img/illustrations/college-project-bro.svg" class="img-fluid" alt="Login image" width="1000">
+                <img src="<?= base_url() ?>assets/img/illustrations/sign-in.svg" class="img-fluid" alt="Login image" width="1000">
             </div>
         </div>
         <!-- /Left Text -->
