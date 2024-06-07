@@ -66,9 +66,9 @@ class Auth extends CI_Controller
         } else {
             $data = [
                 'id' => $this->uuid->v4(),
-                'fullname' => htmlspecialchars($this->input->post('fullname')),
-                'username' => htmlspecialchars($this->input->post('username')),
-                'email' => htmlspecialchars($this->input->post('email')),
+                'fullname' => htmlspecialchars($this->input->post('fullname', true)),
+                'username' => htmlspecialchars($this->input->post('username', true)),
+                'email' => htmlspecialchars($this->input->post('email', true)),
                 'image' => 'default_profile_picture.png',
                 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                 'role_id' => 2,
@@ -81,7 +81,8 @@ class Auth extends CI_Controller
             $data['updated_at'] = time();
 
             $this->Model_users->store($data);
-            return redirect('auth/signin');
+            $this->session->set_flashdata('register_success', '<div class="alert alert-success alert-dismissible d-flex" role="alert"><span class="badge badge-center rounded-pill bg-success border-label-success p-3 me-2"><i class="fa-solid fa-check fs-6"></i></span><div class="d-flex flex-column ps-1"><h6 class="alert-heading d-flex align-items-center mb-1">Congratulations</h6><span>Your account has been created. Please login 😉</span></div></div>');
+            redirect('auth/signin');
         }
     }
 }
