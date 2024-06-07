@@ -9,6 +9,11 @@ class Auth extends CI_Controller
         $this->load->model('Model_users');
     }
 
+    public function index()
+    {
+        return redirect('/auth/signin');
+    }
+
     public function check_username()
     {
         $username = $this->input->post('username');
@@ -39,17 +44,56 @@ class Auth extends CI_Controller
         echo json_encode($response);
     }
 
-    public function index()
-    {
-        return redirect('/auth/signin');
-    }
 
     public function signin()
     {
-        $data = [
-            'title' => 'Sign In'
-        ];
-        $this->template->load('admin/auth_layout', 'admin/auth/login', $data);
+        $this->form_validation->set_rules('email_username', 'Username or Email', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        if ($this->form_validation->run() == FALSE) {
+            $data = [
+                'title' => 'Sign In'
+            ];
+            $this->template->load('admin/auth_layout', 'admin/auth/login', $data);
+        } else {
+            $this->_signin();
+        }
+    }
+
+    private function _signin()
+    {
+        $email_username = $this->input->post('email_username');
+        $password = $this->input->post('password');
+
+        $user = $this->Model_users->check_account($email_username);
+
+        if ($user) {
+            if ($user['is_active'] == 1) {
+                if (password_verify($password, $user['password'])) {
+                    $data = [
+                        'email' => $user['email'],
+                        'username' => $user['username'],
+                        'fullname' => $user['fullname'],
+                        'role_id' => $user['role_id'],
+                    ];
+
+                    $this->session->set_userdata($data);
+
+                    redirect('dashboard');
+                } else {
+                    $this->session->set_flashdata('email_username', $email_username);
+                    $this->session->set_flashdata('wrong_password', 'Wrong Password. Try again!');
+                    redirect('auth/signin');
+                }
+            } else {
+                $this->session->set_flashdata('email_username', $email_username);
+                $this->session->set_flashdata('not_active', 'This account hasn\'t been activated!');
+                redirect('auth/signin');
+            }
+        } else {
+            $this->session->set_flashdata('email_username', $email_username);
+            $this->session->set_flashdata('not_found', 'We can\'t find account with this Username or Email!');
+            redirect('auth/signin');
+        }
     }
 
     public function signup()
@@ -84,6 +128,14 @@ class Auth extends CI_Controller
             $this->session->set_flashdata('register_success', '<div class="alert alert-success alert-dismissible d-flex" role="alert"><span class="badge badge-center rounded-pill bg-success border-label-success p-3 me-2"><i class="fa-solid fa-check fs-6"></i></span><div class="d-flex flex-column ps-1"><h6 class="alert-heading d-flex align-items-center mb-1">Congratulations</h6><span>Your account has been created. Please login 😉</span></div></div>');
             redirect('auth/signin');
         }
+    }
+
+    public function signout()
+    {
+        $session = ['email', 'username', 'fullname', 'role_id'];
+        $this->session->unset_userdata($session);
+        $this->session->set_flashdata('logged_out', '<div class="alert alert-success alert-dismissible d-flex" role="alert"><span class="badge badge-center rounded-pill bg-success border-label-success p-3 me-2"><i class="fa-solid fa-check fs-6"></i></span><div class="d-flex flex-column ps-1"><h6 class="alert-heading d-flex align-items-center mb-1">Logged Out</h6><span>You have been logged out. Thanks 😉</span></div></div>');
+        redirect('auth/signin');
     }
 }
 
