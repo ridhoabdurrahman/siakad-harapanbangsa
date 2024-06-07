@@ -13,17 +13,18 @@
         <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg p-sm-5 p-4">
             <div class="w-px-400 mx-auto">
                 <!-- Logo -->
-                <div class="app-brand mb-5">
+                <div class="app-brand mb-3">
                     <a href="index-2.html" class="app-brand-link gap-2">
                         <span class="app-brand-logo demo">
                             <img src="<?= base_url() ?>assets/img/icons/logo-main.svg" alt="Primary Logo" width="65">
                         </span>
-                        <span class="app-brand-text demo text-body fw-bold">Harapan bangsa</span>
                     </a>
                 </div>
                 <!-- /Logo -->
                 <h4 class="mb-2">Welcome to Siakad Harapan Bangsa!👋</h4>
                 <p class="mb-4">Please sign-in to your account and start the adventure</p>
+
+                <?= $this->session->flashdata('register_success') ?>
 
                 <form id="formAuthentication" class="mb-3" action="" method="GET">
                     <div class="mb-3">
