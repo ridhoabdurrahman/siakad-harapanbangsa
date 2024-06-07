@@ -25,11 +25,32 @@
                 <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
                 <?= $this->session->flashdata('register_success') ?>
+                <?= $this->session->flashdata('logged_out') ?>
 
-                <form id="formAuthentication" class="mb-3" action="" method="GET">
+                <?php if ($this->session->flashdata('not_found')) { ?>
+                    <div class="alert alert-danger d-flex alert-dismissible" role="alert">
+                        <span class="badge badge-center rounded-pill bg-danger border-label-danger p-3 me-2"><i class="fa-solid fa-xmark fs-6"></i></span>
+                        <div class="d-flex flex-column ps-1">
+                            <h6 class="alert-heading d-flex align-items-center mb-1">Oops</h6>
+                            <span><?= $this->session->flashdata('not_found') ?></span>
+                        </div>
+                    </div>
+                <?php } ?>
+
+                <?php if ($this->session->flashdata('not_active')) { ?>
+                    <div class="alert alert-danger d-flex alert-dismissible" role="alert">
+                        <span class="badge badge-center rounded-pill bg-danger border-label-danger p-3 me-2"><i class="fa-solid fa-user-lock fs-6"></i></span>
+                        <div class="d-flex flex-column ps-1">
+                            <h6 class="alert-heading d-flex align-items-center mb-1">Oops</h6>
+                            <span><?= $this->session->flashdata('not_active') ?></span>
+                        </div>
+                    </div>
+                <?php } ?>
+
+                <form id="formAuthentication" class="mb-3" action="<?= site_url('auth/signin') ?>" method="POST">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email or Username</label>
-                        <input type="text" class="form-control" id="email" name="email-username" placeholder="Enter your email or username" autofocus>
+                        <input type="text" class="form-control <?= $this->session->flashdata('wrong_password') ? 'is-invalid' : "" ?>" id="email" name="email_username" placeholder="Enter your email or username" autofocus value="<?= $this->session->flashdata('email_username') ? $this->session->flashdata('email_username') : '' ?>">
                     </div>
                     <div class="mb-3 form-password-toggle">
                         <div class="d-flex justify-content-between">
@@ -39,9 +60,14 @@
                             </a>
                         </div>
                         <div class="input-group input-group-merge">
-                            <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                            <input type="password" id="password" class="form-control <?= $this->session->flashdata('wrong_password') ? 'is-invalid' : "" ?>" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                         </div>
+                        <?php if ($this->session->flashdata('wrong_password')) { ?>
+                            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                <div data-field="password"><?= $this->session->flashdata('wrong_password')  ?></div>
+                            </div>
+                        <?php } ?>
                     </div>
                     <div class="mb-3">
                         <div class="form-check">
