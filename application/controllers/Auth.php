@@ -53,7 +53,7 @@ class Auth extends CI_Controller
             $data = [
                 'title' => 'Sign In'
             ];
-            $this->template->load('admin/auth_layout', 'admin/auth/login', $data);
+            $this->template->load('auth_layout', 'auth/login', $data);
         } else {
             $this->_signin();
         }
@@ -106,7 +106,7 @@ class Auth extends CI_Controller
             $data = [
                 'title' => 'Sign Up'
             ];
-            $this->template->load('admin/auth_layout', 'admin/auth/registration', $data);
+            $this->template->load('auth_layout', 'auth/registration', $data);
         } else {
             $data = [
                 'id' => $this->uuid->v4(),

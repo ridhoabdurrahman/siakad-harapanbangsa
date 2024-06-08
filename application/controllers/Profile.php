@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Dashboard extends CI_Controller
+class Profile extends CI_Controller
 {
     public function __construct()
     {
@@ -13,12 +13,12 @@ class Dashboard extends CI_Controller
     public function index()
     {
         $data = [
-            'title' => 'Dashboard',
+            'title' => 'Profile',
             'user' => $this->Model_users->get_user($this->session->userdata('username')),
         ];
 
-        $this->template->load('admin_layout', 'admin/dashboard/index', $data);
+        $this->template->load('admin_layout', 'admin/profile/index', $data);
     }
 }
 
-/* End of file Dashboard.php */
+/* End of file Profile.php */
