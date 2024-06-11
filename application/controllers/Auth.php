@@ -74,6 +74,7 @@ class Auth extends CI_Controller
                         'username' => $user['username'],
                         'fullname' => $user['fullname'],
                         'role_id' => $user['role_id'],
+                        'is_logged_in' => TRUE,
                     ];
 
                     $this->session->set_userdata($data);
@@ -132,7 +133,7 @@ class Auth extends CI_Controller
 
     public function signout()
     {
-        $session = ['email', 'username', 'fullname', 'role_id'];
+        $session = ['email', 'username', 'fullname', 'role_id', 'is_logged_in'];
         $this->session->unset_userdata($session);
         $this->session->set_flashdata('logged_out', '<div class="alert alert-success alert-dismissible d-flex" role="alert"><span class="badge badge-center rounded-pill bg-success border-label-success p-3 me-2"><i class="fa-solid fa-check fs-6"></i></span><div class="d-flex flex-column ps-1"><h6 class="alert-heading d-flex align-items-center mb-1">Logged Out</h6><span>You have been logged out. Thanks 😉</span></div></div>');
         redirect('auth/signin');
