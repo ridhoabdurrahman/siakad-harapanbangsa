@@ -25,7 +25,11 @@
 
         <?php
         $role_id = $this->session->userdata('role_id');
-        $queryMenus = "SELECT `menu`.`id`, `menu`.`name` FROM `menu` ORDER BY `menu`.`id` ASC";
+        $queryMenus = "SELECT `menu`.`id`, `menu`.`name` FROM `menu` JOIN `sub_menu` ON `menu`.`id` = `sub_menu`.`menu_id` JOIN `user_access_menu` ON `sub_menu`.`id` = `user_access_menu`.`sub_menu_id` ";
+        if ($role_id == 2) {
+            $queryMenus .= "WHERE `user_access_menu`.`role_id` = $role_id ";
+        }
+        $queryMenus .= "GROUP BY `menu`.`id` ORDER BY `menu`.`id` ASC";
         $menus = $this->db->query($queryMenus)->result_array();
 
         foreach ($menus as $menu) :
@@ -36,7 +40,7 @@
 
             <?php
             $menuId = $menu['id'];
-            $querySubMenu = "SELECT * FROM `sub_menu` WHERE `sub_menu`.`menu_id` = $menuId AND `sub_menu`.`is_active` = 1 ORDER BY `sub_menu`.`menu_name` ASC";
+            $querySubMenu = "SELECT * FROM `sub_menu` JOIN `user_access_menu` ON `sub_menu`.`id` = `user_access_menu`.`sub_menu_id` WHERE `sub_menu`.`menu_id` = $menuId AND `user_access_menu`.`role_id` = $role_id AND `sub_menu`.`is_active` = 1 ORDER BY `sub_menu`.`menu_name` ASC";
             $subMenus = $this->db->query($querySubMenu)->result_array();
 
             foreach ($subMenus as $subMenu) :
