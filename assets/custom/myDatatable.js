@@ -34,7 +34,7 @@ $(document).ready(function () {
 				width: "15%",
 				className: "text-center",
 				render: function (data, type, row, meta) {
-					let html = `<a class="btn btn-warning text-white btn-sm me-2"><span class="tf-icons fa-solid fa-pen-to-square me-1"></span> Edit</a><a class="btn btn-danger text-white btn-sm ms-2"><span class="tf-icons fa-solid fa-trash-can me-1"></span> Delete</a>`;
+					let html = `<button type="button" class="btn btn-warning text-white btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalUpdate" onclick="loadData(${row.id})"><span class="tf-icons fa-solid fa-pen-to-square me-1"></span> Edit</button><a class="btn btn-danger text-white btn-sm ms-2 delete-button" onclick="confirmDelete('${devUrl}menu/delete/${row.id}')"><span class="tf-icons fa-solid fa-trash-can me-1"></span> Delete</a>`;
 					return html;
 				},
 			},

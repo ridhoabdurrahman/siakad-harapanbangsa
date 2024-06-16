@@ -8,9 +8,25 @@ class Model_menu extends CI_Model
         return $this->datatables->table('menu')->draw();
     }
 
+    public function get_row($id)
+    {
+        return $this->db->get_where('menu', ['id' => $id])->row_array();
+    }
+
     public function insert($data)
     {
         $this->db->insert('menu', $data);
+    }
+
+    public function destroy($id)
+    {
+        $this->db->delete('menu', ['id' => $id]);
+    }
+
+    public function update($data, $id)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('menu', $data);
     }
 }
 
