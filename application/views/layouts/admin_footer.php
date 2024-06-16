@@ -49,6 +49,7 @@
 <script src="<?= base_url(); ?>assets/js/main.js"></script>
 <script src="<?= base_url(); ?>assets/custom/myDatatable.js"></script>
 <script src="<?= base_url(); ?>assets/custom/myAlert.js"></script>
+<script src="<?= base_url(); ?>assets/custom/myFunction.js"></script>
 </body>
 
 </html>
